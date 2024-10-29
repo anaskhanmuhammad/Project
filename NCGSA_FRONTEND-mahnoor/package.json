@@ -1,0 +1,17 @@
+{
+  "name": "ncgsa_project",
+  "version": "1.0.0",
+  "description": "This project implements a real-time data visualization and logging system for a three-component fluxgate magnetometer. It uses a combination of Node.js for server-side operations, React.js for the client-side interface, and various libraries and frameworks for data handling and presentation.",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm --prefix server start\" \"npm --prefix client run dev\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.0.1",
+    "dayjs": "^1.11.6",
+    "react-tailwindcss-datepicker": "^1.7.2"
+  }
+}
