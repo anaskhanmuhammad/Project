@@ -46,33 +46,49 @@ const ChartGrid = ({ data }) => {
     }
   }, [dateRange, data]);
 
-  // Show a pop up screen on clicking each chart
 
+  // Show a pop up screen on clicking each chart
   const [focusMode, setFocusMode] = useState(false);
   const titleRef = useRef();
   const yTitleRef = useRef();
   const colorRef = useRef();
   const hoverTitleRef = useRef();
   const dataRef = useRef();
+  const chartIdRef = useRef();
   
-  const showSeperateWindow = (titleText, yTitle, color, hoverTitle, data) => {
+  const showSeperateWindow = (titleText, yTitle, color, hoverTitle, data, chartId) => {
     titleRef.current = titleText;
     yTitleRef.current = yTitle;
     colorRef.current = color;
     hoverTitleRef.current = hoverTitle;
     dataRef.current = data;
+    chartIdRef.current = chartId;
     setFocusMode(!focusMode);
 
     console.log(dataRef.current);
   }
 
+  const [downloadType, setDownloadType] = useState('')
 
+  const handleDownload = (event) => {
+    console.log(event.target.value);
+    setDownloadType(event.target.value);
+    event.target.value = ''
+  }
+  
+  const [view, setView] = useState(2)
+
+  const handleViewChange = (event) => {
+    console.log(event.target.value);
+    setView(Number(event.target.value));
+
+  }
 
   return (
     <>
 
     {focusMode && ( 
-      <div className="fixed z-50 w-4/5 bg-white top-[10%] left-[10%] border-black border flex content-center flex-col items-center h-4/5 shadow-2xl rounded-lg">
+      <div className="fixed z-50 w-4/5 bg-white top-[10%] left-[10%] border-black border flex content-center flex-col items-center h-4/5 shadow-2xl rounded-md">
         <div className="w-full  ">
             <button onClick={() => showSeperateWindow()} className="float-right  w-10 m-2 text-xl">X</button>
         </div>
@@ -83,12 +99,13 @@ const ChartGrid = ({ data }) => {
               yTitle={yTitleRef.current}
               color={colorRef.current}
               data={dataRef.current}
+              chartId={chartIdRef.current}
             />
         </div>
       </div>
     )}
 
-    {(<div className={`${focusMode ? 'blur' : ''}`}>
+    <div className={`${focusMode ? 'blur' : ''}`}>
       {/* DatePicker Section */}
       <h1 className="font-semibold  pl-2 "> Select Data Duration</h1>
       <div className="mb-4 border border-inherit ">
@@ -104,9 +121,33 @@ const ChartGrid = ({ data }) => {
         />
       </div>
 
+      {/* Download button Section */}
+      <div className="w-full flex justify-end mt-5 mb-10">
+        <div>
+          {/* <label htmlFor="downloadType">Select View:</label> */}
+            <select name="chartView" id="viewSelector" defaultValue={''} onChange={(event) => handleViewChange(event)} className="float-right bg-gray-700 text-white p-1 ml-1 rounded-xl">
+              <option value="" disabled>Select View</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+            </select>
+        </div>
+        <div>
+          {/* <label htmlFor="downloadType">Download All Charts:</label> */}
+          <select name="downloadType" id="downloadType" defaultValue={''} onChange={(event) => handleDownload(event)} className="float-right bg-gray-700 text-white p-1 ml-1 rounded-xl">
+            <option value="" disabled>Download All Charts:</option>
+            <option value="PNG">Download in PNG</option>
+            <option value="SVG">Download in SVG</option>
+            <option value="CSV">Download in CSV</option>
+          </select>
+        </div>
+
+      </div>
+
+
       {/* Chart Grid Section */}
-      <div className="flex justify-center gap-5">
-        <div className="w-1/2">
+      <div className={`flex justify-center flex-wrap`}>
+        <div className={`${view === 1? 'w-full': view ===2 ? 'w-1/2': view === 4 ? 'w-1/4' : 'w-1/2'}`}>
           <ApexChart
             hoverTitle={"X-axis"}
             
@@ -119,9 +160,12 @@ const ChartGrid = ({ data }) => {
               
             ])}
             showSeperateWindow={showSeperateWindow}
-            
+            chartId={'Chart-1'}
+            downloadType={downloadType}
           />
+        </div>
 
+        <div className={`${view === 1? 'w-full': view ===2 ? 'w-1/2': view === 4 ? 'w-1/4' : 'w-1/2'}`}>
           <ApexChart
             hoverTitle={"Z-axis"}
             titleText={"Z-axis Magnetic Field Waveform"}
@@ -132,9 +176,12 @@ const ChartGrid = ({ data }) => {
               entry.avgZ,
             ])}
             showSeperateWindow={showSeperateWindow}
+            chartId={'Chart-2'}
+            downloadType={downloadType}
           />
         </div>
-        <div className="w-1/2">
+
+        <div className={`${view === 1? 'w-full': view ===2 ? 'w-1/2': view === 4 ? 'w-1/4' : 'w-1/2'}`}>
           <ApexChart
             hoverTitle={"Y-axis"}
             titleText={"Y-axis Magnetic Field Waveform"}
@@ -145,8 +192,12 @@ const ChartGrid = ({ data }) => {
               entry.avgY,
             ])}
             showSeperateWindow={showSeperateWindow}
+            chartId={'Chart-3'}
+            downloadType={downloadType}
           />
+        </div>
 
+        <div className={`${view === 1? 'w-full': view ===2 ? 'w-1/2': view === 4 ? 'w-1/4' : 'w-1/2'}`}>
           <ApexChart
             hoverTitle={"Total-axis"}
             titleText={"Total axis Magnetic Field Waveform"}
@@ -157,10 +208,12 @@ const ChartGrid = ({ data }) => {
               entry.avgTotal,
             ])}
             showSeperateWindow={showSeperateWindow}
+            chartId={'Chart-4'}
+            downloadType={downloadType}
           />
         </div>
       </div>
-    </div>)}
+    </div>
     </>
   );
 };
