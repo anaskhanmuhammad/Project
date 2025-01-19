@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import ApexChart from "./apexChart"; // Assuming ApexChart component is being used to render charts
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ChartGrid = ({ data }) => {
+  console.log(data)
   const [dateRange, setDateRange] = useState({
     startDate: null,
     endDate: null,
@@ -31,7 +35,23 @@ const ChartGrid = ({ data }) => {
           entry.TIMESTAMP * 1000 >= new Date(new Date(startDate).setHours(0, 0, 0, 0)).getTime() &&
           entry.TIMESTAMP * 1000 <= new Date(new Date(endDate).setHours(23, 59, 59, 999)).getTime()
       );
-      setFilteredData(filtered);
+      if (filtered.length === 0) {
+        toast.error("No Data is in the specified range", {
+          position: "bottom-right",
+          autoClose: 5000,      
+          hideProgressBar: false, 
+          closeOnClick: true,   
+          pauseOnHover: true,        
+        });
+        setDateRange({
+          startDate: null,
+          endDate: null,
+        });
+      }
+      else {
+        setFilteredData(filtered);
+
+      }
     } else {
       setFilteredData(data); // Show all data if no range is selected
     }
@@ -70,10 +90,32 @@ const ChartGrid = ({ data }) => {
 
   const [downloadType, setDownloadType] = useState('')
 
-  const handleDownload = (event) => {
-    console.log(event.target.value);
-    setDownloadType(event.target.value);
-    event.target.value = ''
+  const handleDownloadCSV = (event) => {
+    // console.log(event.target.value);
+    // setDownloadType(event.target.value);
+    // event.target.value = ''
+    
+    const formattedData = data.map(item => ({
+      category: new Date(item.TIMESTAMP * 1000).toISOString().replace("T", " ").split(".")[0],
+      "X-axis": item.avgX,
+      "Y-axis": item.avgY,
+      "Z-axis": item.avgZ,
+      "Total-axis" : item.avgTotal
+    }));
+  
+    const headers = ["category", "X-axis", "Y-axis", "Z-axis", "Total-axis"];
+    const rows = formattedData.map(row => headers.map(header => row[header]).join(","));
+    const csvContent = [headers.join(","), ...rows].join("\n");
+  
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
   
   const [view, setView] = useState(2)
@@ -84,6 +126,7 @@ const ChartGrid = ({ data }) => {
 
   }
 
+  
   return (
     <>
 
@@ -134,12 +177,14 @@ const ChartGrid = ({ data }) => {
         </div>
         <div>
           {/* <label htmlFor="downloadType">Download All Charts:</label> */}
-          <select name="downloadType" id="downloadType" defaultValue={''} onChange={(event) => handleDownload(event)} className="float-right bg-gray-700 text-white p-1 ml-1 rounded-xl">
+          {/* <select name="downloadType" id="downloadType" defaultValue={''} onChange={(event) => handleDownload(event)} className="float-right bg-gray-700 text-white p-1 ml-1 rounded-xl">
             <option value="" disabled>Download All Charts:</option>
             <option value="PNG">Download in PNG</option>
             <option value="SVG">Download in SVG</option>
             <option value="CSV">Download in CSV</option>
-          </select>
+          </select> */}
+
+          <button onClick={() => handleDownloadCSV()} className="float-right bg-gray-700 text-white p-1 ml-1 rounded-xl">Download data in CSV</button>
         </div>
 
       </div>
@@ -214,6 +259,7 @@ const ChartGrid = ({ data }) => {
         </div>
       </div>
     </div>
+    <ToastContainer/>
     </>
   );
 };

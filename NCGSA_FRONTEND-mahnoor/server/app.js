@@ -189,7 +189,7 @@ async function initializeSerialPort() {
         });
     });
 }
-initializeSerialPort();
+// initializeSerialPort();
 app.get("/getPortName", async (req, res) => {
     try {
         const ports = await SerialPort.list();
@@ -212,6 +212,36 @@ app.get("/getPortName", async (req, res) => {
         });
     }
 });
+
+
+function generateData() {
+    const timestamp = Math.floor(Date.now() / 1000);
+    const x = Math.floor(Math.random() * 10) + 1;
+    const y = Math.floor(Math.random() * 10) + 1;
+    const z = Math.floor(Math.random() * 10) + 1;
+    const total = x+y+z;
+    const temp = ''
+
+    io.emit("dataReceived", {
+        timestamp,
+        x,
+        y,
+        z,
+        total, 
+        temp,
+    });
+
+    console.log('Timestamp:', timestamp);
+}
+
+const interval = setInterval(() => {
+    generateData();
+}, 100);
+
+setTimeout(() => {
+    clearInterval(interval); // Stop the interval after 1 minute
+    console.log('Stopped generating data after 1 minute.');
+}, 60000);
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 

@@ -2,6 +2,7 @@ import React from "react";
 import ApexRealTime from "./ApexRealTime";
 
 const RealChartGrid = ({ data }) => {
+  // console.log(data)
   // Extract timestamps and average values from the data
   const timestamps = data.map((entry) => entry.timestamp);
   const averageValues = data.map((entry) => entry.averageValue);

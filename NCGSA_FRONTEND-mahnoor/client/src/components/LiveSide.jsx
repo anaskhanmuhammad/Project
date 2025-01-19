@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 const LiveSide = ({ data }) => {
+  // console.log('here', data)
+  // console.log('here', .x)
+
+  let lastData = [];
+  if (data.length > 0) {
+    lastData = data[data.length - 1];
+  }
+  // const currentData = data[data.length-1]
   const [portName, setPortName] = useState("Loading..."); // State to hold port name
   const [aveData, setAveData] = useState(null);
 
@@ -51,7 +59,7 @@ const LiveSide = ({ data }) => {
               type="text"
               name="xValue"
               id="xValue"
-              value={" 0.00"}
+              value={lastData.x}
               className="border border-slate-500 rounded-sm mx-5"
             />
             <span>nT</span>
@@ -64,7 +72,7 @@ const LiveSide = ({ data }) => {
               type="text"
               name="yValue"
               id="yValue"
-              value={" 0.00"}
+              value={lastData.y}
               className="border border-slate-500 rounded-sm mx-5"
             />
             <span>nT</span>
@@ -77,7 +85,7 @@ const LiveSide = ({ data }) => {
               type="text"
               name="zValue"
               id="zValue"
-              value={" 0.00"}
+              value={lastData.z}
               className="border border-slate-500 rounded-sm mx-5"
             />
             <span>nT</span>
@@ -90,7 +98,7 @@ const LiveSide = ({ data }) => {
               type="text"
               name="total"
               id="total"
-              value={" 0.00"}
+              value={lastData.total}
               className="border border-slate-500 rounded-sm mx-5"
             />
             <span>nT</span>

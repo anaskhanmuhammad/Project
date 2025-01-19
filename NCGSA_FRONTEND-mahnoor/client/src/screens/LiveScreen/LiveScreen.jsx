@@ -3,14 +3,18 @@ import LiveSide from "../../components/LiveSide";
 import RealChartGrid from "../../components/RealChartGrid";
 import Record from "../../components/Record";
 import io from "socket.io-client";
-const LiveScreen = () => {
-  const [dataPoints, setDataPoints] = useState([]);
 
+const LiveScreen = () => {
+  const [rawDataPoints, setRawDataPoints] = useState([]);
+  const [dataPoints, setDataPoints] = useState([]);
+  let previousTimeStamp;
+  
   useEffect(() => {
     const socket = io("http://localhost:8080");
 
     socket.on("dataReceived", (newData) => {
-      setDataPoints((currentPoints) => {
+
+      setRawDataPoints((currentPoints) => {
         // Group existing data points by timestamp
         const groupedData = currentPoints.reduce((acc, point) => {
           const { timestamp } = point;
@@ -51,21 +55,32 @@ const LiveScreen = () => {
           };
         });
 
-        // Limit the array to the last 1000 averaged data points
         if (averagedData.length > 30) {
           averagedData.shift();
         }
 
+        if (previousTimeStamp !== newData.timestamp) {
+
+          const currentData = [...averagedData]
+          currentData.pop();
+          setDataPoints(currentData)
+        }
+        previousTimeStamp = newData.timestamp
+
         return averagedData;
       });
-    });
 
+      
+    });
     return () => {
       socket.disconnect();
     };
   }, []);
 
-  console.log(dataPoints);
+
+
+  // console.log(rawDataPoints);
+  // console.log(dataPoints);
   return (
     <>
       <div className="flex">

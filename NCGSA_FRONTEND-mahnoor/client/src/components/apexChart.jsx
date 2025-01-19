@@ -9,15 +9,14 @@ const ApexChart = ({ titleText, yTitle, color, hoverTitle, data, showSeperateWin
   dataRef.current = data;
 
   const handleClick = useCallback(() => {
-    console.log(dataRef.current); // This should now reflect filtered data
+    console.log(dataRef.current); 
     console.log(color);
     console.log(titleText);
     console.log(hoverTitle);
     console.log(yTitle);
     console.log(color);
-    console.log('clicked');
-    showSeperateWindow(titleText, yTitle, color, hoverTitle, dataRef.current); // Pass the current (filtered) data
-  }, [titleText, yTitle, color, hoverTitle, data, chartId]); // Add data as a dependency])
+    showSeperateWindow(titleText, yTitle, color, hoverTitle, dataRef.current); 
+  }, [titleText, yTitle, color, hoverTitle, data, chartId]); 
 
 
   const series = [
@@ -105,36 +104,36 @@ const ApexChart = ({ titleText, yTitle, color, hoverTitle, data, showSeperateWin
       },
     },
   };
-  const downloadRef = useRef()
+  // const downloadRef = useRef()
 
-  useEffect(() => {
-    const chartInstance = downloadRef.current;
+  // useEffect(() => {
+  //   const chartInstance = downloadRef.current;
 
-    if (!chartInstance) {
-      return;
-    }
-
-
-    if (downloadType === 'PNG') {
-      // console.log(downloadRef.current);
-      // console.log(chartInstance.exports);
-      // chartInstance.chart.dataURI().then((uri)=>{
-      //   console.log(uri)
-      // });
-
-      chartInstance.chart.exports.exportToPng();
+  //   if (!chartInstance) {
+  //     return;
+  //   }
 
 
-    }
-    else if (downloadType === 'CSV') {
-      chartInstance.chart.exports.exportToCSV({
-        series: chartInstance.chart.w.config.series,
-    });
-    }
-    else if (downloadType === 'SVG') {
-      chartInstance.chart.exports.exportToSVG();
-    }
-  },[downloadType])
+  //   if (downloadType === 'PNG') {
+  //     // console.log(downloadRef.current);
+  //     // console.log(chartInstance.exports);
+  //     // chartInstance.chart.dataURI().then((uri)=>{
+  //     //   console.log(uri)
+  //     // });
+
+  //     chartInstance.chart.exports.exportToPng();
+
+
+  //   }
+  //   else if (downloadType === 'CSV') {
+  //     chartInstance.chart.exports.exportToCSV({
+  //       series: chartInstance.chart.w.config.series,
+  //   });
+  //   }
+  //   else if (downloadType === 'SVG') {
+  //     chartInstance.chart.exports.exportToSVG();
+  //   }
+  // },[downloadType])
 
 
 
@@ -144,7 +143,7 @@ const ApexChart = ({ titleText, yTitle, color, hoverTitle, data, showSeperateWin
     <div>
       <div id="chart">
         <ReactApexChart
-          ref={downloadRef}
+          // ref={downloadRef}
           options={options}
           series={series}
           type="area"
