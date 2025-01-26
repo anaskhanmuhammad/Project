@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 const LiveSide = ({ data }) => {
-  // console.log('here', data)
-  // console.log('here', .x)
 
-  let lastData = [];
+ let lastData = [];
   if (data.length > 0) {
     lastData = data[data.length - 1];
   }
-  // const currentData = data[data.length-1]
+
   const [portName, setPortName] = useState("Loading..."); // State to hold port name
   const [aveData, setAveData] = useState(null);
 

@@ -78,9 +78,6 @@ const LiveScreen = () => {
   }, []);
 
 
-
-  // console.log(rawDataPoints);
-  // console.log(dataPoints);
   return (
     <>
       <div className="flex">

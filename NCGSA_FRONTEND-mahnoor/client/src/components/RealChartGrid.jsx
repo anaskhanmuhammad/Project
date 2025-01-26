@@ -2,7 +2,7 @@ import React from "react";
 import ApexRealTime from "./ApexRealTime";
 
 const RealChartGrid = ({ data }) => {
-  // console.log(data)
+
   // Extract timestamps and average values from the data
   const timestamps = data.map((entry) => entry.timestamp);
   const averageValues = data.map((entry) => entry.averageValue);
@@ -30,7 +30,7 @@ const RealChartGrid = ({ data }) => {
           yTitle={"X-axis Magnetic Field/nT"}
           color={"#247BA0"}
           data={data.map((d) => ({
-            x: new Date(d.timestamp * 1000), // Convert to milliseconds
+            x: new Date(d.timestamp * 1000 + 5 * 60 * 60 * 1000), // Convert Unix timestamp (in seconds) to milliseconds and adjust for GMT+5 timezone (5 hours ahead of UTC)
             y: parseFloat(d.x).toFixed(2), // or d.x, d.y, d.z depending on which value you want to plot
           }))}
         />
@@ -41,7 +41,7 @@ const RealChartGrid = ({ data }) => {
           yTitle={"Z-axis Magnetic Field/nT"}
           color={"#FF1654"}
           data={data.map((d) => ({
-            x: new Date(d.timestamp * 1000), // Convert to milliseconds
+            x: new Date(d.timestamp * 1000 + 5 * 60 * 60 * 1000), // Convert Unix timestamp (in seconds) to milliseconds and adjust for GMT+5 timezone (5 hours ahead of UTC)
             y: parseFloat(d.y).toFixed(2), // or d.x, d.y, d.z depending on which value you want to plot
           }))}
         />
@@ -67,7 +67,7 @@ const RealChartGrid = ({ data }) => {
           yTitle={"Y-axis Magnetic Field/nT"}
           color={"#199AFB"}
           data={data.map((d) => ({
-            x: new Date(d.timestamp * 1000), // Convert to milliseconds
+            x: new Date(d.timestamp * 1000 + 5 * 60 * 60 * 1000), // Convert Unix timestamp (in seconds) to milliseconds and adjust for GMT+5 timezone (5 hours ahead of UTC)
             y: parseFloat(d.z).toFixed(2), // or d.x, d.y, d.z depending on which value you want to plot
           }))}
         />
@@ -90,7 +90,7 @@ const RealChartGrid = ({ data }) => {
           yTitle={"Total axis Magnetic Field/nT"}
           color={"#064e9b"}
           data={data.map((d) => ({
-            x: new Date(d.timestamp * 1000), // Convert to milliseconds
+            x: new Date(d.timestamp * 1000 + 5 * 60 * 60 * 1000), // Convert Unix timestamp (in seconds) to milliseconds and adjust for GMT+5 timezone (5 hours ahead of UTC)
             y: parseFloat(d.total).toFixed(2), // or d.x, d.y, d.z depending on which value you want to plot
           }))}
         />

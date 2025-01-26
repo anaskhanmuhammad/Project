@@ -2,9 +2,8 @@ import { colors } from "@mui/material";
 import React, { useCallback, useEffect, useRef } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ApexChart = ({ titleText, yTitle, color, hoverTitle, data, showSeperateWindow, chartId, downloadType}) => {
+const ApexChart = ({ titleText, yTitle, color, hoverTitle, data, showSeperateWindow, chartId}) => {
   
-  console.log(data);
   const dataRef = useRef();
   dataRef.current = data;
 
@@ -104,46 +103,11 @@ const ApexChart = ({ titleText, yTitle, color, hoverTitle, data, showSeperateWin
       },
     },
   };
-  // const downloadRef = useRef()
-
-  // useEffect(() => {
-  //   const chartInstance = downloadRef.current;
-
-  //   if (!chartInstance) {
-  //     return;
-  //   }
-
-
-  //   if (downloadType === 'PNG') {
-  //     // console.log(downloadRef.current);
-  //     // console.log(chartInstance.exports);
-  //     // chartInstance.chart.dataURI().then((uri)=>{
-  //     //   console.log(uri)
-  //     // });
-
-  //     chartInstance.chart.exports.exportToPng();
-
-
-  //   }
-  //   else if (downloadType === 'CSV') {
-  //     chartInstance.chart.exports.exportToCSV({
-  //       series: chartInstance.chart.w.config.series,
-  //   });
-  //   }
-  //   else if (downloadType === 'SVG') {
-  //     chartInstance.chart.exports.exportToSVG();
-  //   }
-  // },[downloadType])
-
-
-
-  // const 
 
   return (
     <div>
       <div id="chart">
         <ReactApexChart
-          // ref={downloadRef}
           options={options}
           series={series}
           type="area"

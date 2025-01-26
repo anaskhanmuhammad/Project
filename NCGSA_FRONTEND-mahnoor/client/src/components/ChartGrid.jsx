@@ -13,22 +13,17 @@ const ChartGrid = ({ data }) => {
   });
   const [filteredData, setFilteredData] = useState(data);
 
-  // Handle Date Range Change
   const handleDateRangeChange = (newRange) => {
     console.log(newRange)
     setDateRange(newRange);
     filterDataByDateRange(newRange);
   };
 
-  // Function to filter data based on the selected date range
   const filterDataByDateRange = (range) => {
     const { startDate, endDate } = range;
     if (startDate && endDate) {
       console.log(new Date(new Date(startDate).setHours(0, 0, 0, 0)).getTime())
-      // console.log(new Date(new Date(startDate).setHours(0, 0, 0, 0)))
       console.log(new Date(new Date(endDate).setHours(23, 59, 59, 999)).getTime())
-      // console.log(new Date(new Date(endDate).setHours(23, 59, 59, 999)))
-      // console.log(data[0].TIMESTAMP * 1000)
 
       const filtered = data.filter(
         (entry) =>
@@ -88,13 +83,7 @@ const ChartGrid = ({ data }) => {
     console.log(dataRef.current);
   }
 
-  const [downloadType, setDownloadType] = useState('')
-
-  const handleDownloadCSV = (event) => {
-    // console.log(event.target.value);
-    // setDownloadType(event.target.value);
-    // event.target.value = ''
-    
+  const handleDownloadCSV = (event) => { 
     const formattedData = data.map(item => ({
       category: new Date(item.TIMESTAMP * 1000).toISOString().replace("T", " ").split(".")[0],
       "X-axis": item.avgX,
@@ -121,9 +110,7 @@ const ChartGrid = ({ data }) => {
   const [view, setView] = useState(2)
 
   const handleViewChange = (event) => {
-    console.log(event.target.value);
     setView(Number(event.target.value));
-
   }
 
   
@@ -164,10 +151,8 @@ const ChartGrid = ({ data }) => {
         />
       </div>
 
-      {/* Download button Section */}
       <div className="w-full flex justify-end mt-5 mb-10">
         <div>
-          {/* <label htmlFor="downloadType">Select View:</label> */}
             <select name="chartView" id="viewSelector" defaultValue={''} onChange={(event) => handleViewChange(event)} className="float-right bg-gray-700 text-white p-1 ml-1 rounded-xl">
               <option value="" disabled>Select View</option>
               <option value="1">1</option>
@@ -176,14 +161,6 @@ const ChartGrid = ({ data }) => {
             </select>
         </div>
         <div>
-          {/* <label htmlFor="downloadType">Download All Charts:</label> */}
-          {/* <select name="downloadType" id="downloadType" defaultValue={''} onChange={(event) => handleDownload(event)} className="float-right bg-gray-700 text-white p-1 ml-1 rounded-xl">
-            <option value="" disabled>Download All Charts:</option>
-            <option value="PNG">Download in PNG</option>
-            <option value="SVG">Download in SVG</option>
-            <option value="CSV">Download in CSV</option>
-          </select> */}
-
           <button onClick={() => handleDownloadCSV()} className="float-right bg-gray-700 text-white p-1 ml-1 rounded-xl">Download data in CSV</button>
         </div>
 
@@ -206,7 +183,6 @@ const ChartGrid = ({ data }) => {
             ])}
             showSeperateWindow={showSeperateWindow}
             chartId={'Chart-1'}
-            downloadType={downloadType}
           />
         </div>
 
@@ -222,7 +198,6 @@ const ChartGrid = ({ data }) => {
             ])}
             showSeperateWindow={showSeperateWindow}
             chartId={'Chart-2'}
-            downloadType={downloadType}
           />
         </div>
 
@@ -238,7 +213,6 @@ const ChartGrid = ({ data }) => {
             ])}
             showSeperateWindow={showSeperateWindow}
             chartId={'Chart-3'}
-            downloadType={downloadType}
           />
         </div>
 
@@ -254,7 +228,6 @@ const ChartGrid = ({ data }) => {
             ])}
             showSeperateWindow={showSeperateWindow}
             chartId={'Chart-4'}
-            downloadType={downloadType}
           />
         </div>
       </div>

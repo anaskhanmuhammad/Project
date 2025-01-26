@@ -4,6 +4,7 @@ import ReactApexChart from "react-apexcharts";
 const XAXISRANGE = 1000;
 
 const ApexRealTime = ({ data }) => {
+  console.log(data)
   const [series, setSeries] = useState([{ data: [] }]);
   const [options, setOptions] = useState({
     chart: {

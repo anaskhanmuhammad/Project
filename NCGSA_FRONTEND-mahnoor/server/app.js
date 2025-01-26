@@ -239,8 +239,7 @@ const interval = setInterval(() => {
 }, 100);
 
 setTimeout(() => {
-    clearInterval(interval); // Stop the interval after 1 minute
-    console.log('Stopped generating data after 1 minute.');
+    clearInterval(interval); 
 }, 60000);
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
