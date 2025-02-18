@@ -4,7 +4,7 @@ import ReactApexChart from "react-apexcharts";
 const XAXISRANGE = 1000;
 
 const ApexRealTime = ({ data }) => {
-  console.log(data)
+
   const [series, setSeries] = useState([{ data: [] }]);
   const [options, setOptions] = useState({
     chart: {
@@ -53,11 +53,6 @@ const ApexRealTime = ({ data }) => {
   // console.log(data);
   useEffect(() => {
     if (data.length === 0) return;
-
-    // const formattedData = data.map(d => ({
-    //   x: d.x, // Convert to milliseconds
-    //   y: d.y // or d.x, d.y, d.z depending on which value you want to plot
-    // }));
 
     setSeries([{ data: data.slice() }]);
 

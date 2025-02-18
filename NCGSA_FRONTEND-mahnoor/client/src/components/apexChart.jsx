@@ -8,12 +8,6 @@ const ApexChart = ({ titleText, yTitle, color, hoverTitle, data, showSeperateWin
   dataRef.current = data;
 
   const handleClick = useCallback(() => {
-    console.log(dataRef.current); 
-    console.log(color);
-    console.log(titleText);
-    console.log(hoverTitle);
-    console.log(yTitle);
-    console.log(color);
     showSeperateWindow(titleText, yTitle, color, hoverTitle, dataRef.current); 
   }, [titleText, yTitle, color, hoverTitle, data, chartId]); 
 

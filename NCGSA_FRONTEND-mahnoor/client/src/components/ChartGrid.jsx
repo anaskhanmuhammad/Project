@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const ChartGrid = ({ data }) => {
-  console.log(data)
   const [dateRange, setDateRange] = useState({
     startDate: null,
     endDate: null,
@@ -14,7 +13,6 @@ const ChartGrid = ({ data }) => {
   const [filteredData, setFilteredData] = useState(data);
 
   const handleDateRangeChange = (newRange) => {
-    console.log(newRange)
     setDateRange(newRange);
     filterDataByDateRange(newRange);
   };
@@ -22,9 +20,6 @@ const ChartGrid = ({ data }) => {
   const filterDataByDateRange = (range) => {
     const { startDate, endDate } = range;
     if (startDate && endDate) {
-      console.log(new Date(new Date(startDate).setHours(0, 0, 0, 0)).getTime())
-      console.log(new Date(new Date(endDate).setHours(23, 59, 59, 999)).getTime())
-
       const filtered = data.filter(
         (entry) =>
           entry.TIMESTAMP * 1000 >= new Date(new Date(startDate).setHours(0, 0, 0, 0)).getTime() &&
@@ -48,7 +43,7 @@ const ChartGrid = ({ data }) => {
 
       }
     } else {
-      setFilteredData(data); // Show all data if no range is selected
+      setFilteredData(data); 
     }
   };
 
@@ -62,7 +57,7 @@ const ChartGrid = ({ data }) => {
   }, [dateRange, data]);
 
 
-  // Show a pop up screen on clicking each chart
+  // Show a seperate window on clicking each chart
   const [focusMode, setFocusMode] = useState(false);
   const titleRef = useRef();
   const yTitleRef = useRef();
@@ -79,8 +74,6 @@ const ChartGrid = ({ data }) => {
     dataRef.current = data;
     chartIdRef.current = chartId;
     setFocusMode(!focusMode);
-
-    console.log(dataRef.current);
   }
 
   const handleDownloadCSV = (event) => { 
@@ -96,7 +89,6 @@ const ChartGrid = ({ data }) => {
     const rows = formattedData.map(row => headers.map(header => row[header]).join(","));
     const csvContent = [headers.join(","), ...rows].join("\n");
   
-
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
